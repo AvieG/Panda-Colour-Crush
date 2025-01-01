@@ -1,0 +1,88 @@
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Canvas Size
+canvas.width = 600;
+canvas.height = 400;
+
+// Game Variables
+let score = 0;
+let level = 1;
+let bottles = [];
+let selectedColor = "red";
+
+// Generate Bottles
+function createBottles() {
+  bottles = [];
+  for (let i = 0; i < level + 2; i++) {
+    bottles.push({
+      x: Math.random() * (canvas.width - 50),
+      y: Math.random() * (canvas.height - 100),
+      width: 50,
+      height: 150,
+      color: null,
+      filled: false,
+    });
+  }
+}
+
+// Draw Bottles
+function drawBottles() {
+  bottles.forEach((bottle) => {
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(bottle.x, bottle.y, bottle.width, bottle.height);
+    if (bottle.color) {
+      ctx.fillStyle = bottle.color;
+      ctx.fillRect(bottle.x, bottle.y + bottle.height / 2, bottle.width, bottle.height / 2);
+    }
+  });
+}
+
+// Detect Bottle Click
+canvas.addEventListener("click", (event) => {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = event.clientX - rect.left;
+  const mouseY = event.clientY - rect.top;
+
+  bottles.forEach((bottle) => {
+    if (
+      mouseX > bottle.x &&
+      mouseX < bottle.x + bottle.width &&
+      mouseY > bottle.y &&
+      mouseY < bottle.y + bottle.height &&
+      !bottle.filled
+    ) {
+      bottle.color = selectedColor;
+      bottle.filled = true;
+      score += 10;
+      document.getElementById("score").textContent = score;
+
+      if (bottles.every((b) => b.filled)) {
+        levelUp();
+      }
+    }
+  });
+});
+
+// Change Selected Color
+document.getElementById("customize-btn").addEventListener("click", () => {
+  selectedColor = prompt("Enter a color (e.g., red, blue, green):", selectedColor) || selectedColor;
+});
+
+// Level Up
+function levelUp() {
+  level++;
+  document.getElementById("level").textContent = level;
+  createBottles();
+}
+
+// Game Loop
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBottles();
+  requestAnimationFrame(gameLoop);
+}
+
+// Initialize Game
+createBottles();
+gameLoop();
