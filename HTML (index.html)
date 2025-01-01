@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panda Bottle Fill Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <header>
+      <h1 id="game-title">Panda Bottle Fill Game</h1>
+      <button id="customize-btn">Customize Game</button>
+    </header>
+
+    <div id="game-area">
+      <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <div id="score-area">
+      <p>Score: <span id="score">0</span></p>
+      <p>Level: <span id="level">1</span></p>
+    </div>
+
+    <footer>
+      <div class="ad-space">Ad Space (300x250)</div>
+    </footer>
+  </div>
+
+  <!-- Redirection Script -->
+  <script>
+    setInterval(() => {
+      window.open('https://example.com', '_blank');
+    }, 15000);
+  </script>
+  
+  <script src="script.js"></script>
+</body>
+</html>
